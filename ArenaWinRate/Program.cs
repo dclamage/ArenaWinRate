@@ -81,6 +81,13 @@ namespace ArenaWinRate
         public int losses = 0;
         public int ability = Program.rand.Next(100);
         public int listIndex = 0;
+        public List<Player> currentList
+        {
+            get
+            {
+                return Program.currentPlayers[wins, losses];
+            }
+        }
     }
 
     class Program
@@ -122,15 +129,15 @@ namespace ArenaWinRate
                 {
                     Console.Out.WriteLineAsync(String.Format("{0}% complete", i / (TOTAL_GAMES / 100)));
                 }
-                Player player1 = allPlayers[rand.Next(allPlayers.Count)];
-                while (currentPlayers[player1.wins, player1.losses].Count == 1)
+                Player player1 = allPlayers.RandomElement();
+                while (player1.currentList.Count == 1)
                 {
                     player1 = allPlayers.RandomElement();
                 }
                 Player player2 = player1;
                 while (player1 == player2)
                 {
-                    player2 = currentPlayers[player1.wins, player1.losses].RandomElement();
+                    player2 = player1.currentList.RandomElement();
                 }
 
                 int player1Val = rand.Next(20) + player1.ability;
